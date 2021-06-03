@@ -20,14 +20,17 @@ const $Subzero = {
 
 
 function createPlayer(clPlayer, gamer) {
-    let player1 = document.createElement('div');
-    player1.classList.add(clPlayer)
+    let player1 = document.createElement('div'),
+        img = document.createElement('img'),
+        character = document.createElement('div'),
+        life = document.createElement('div'),
+        name = document.createElement('div'),
+        progressbar = document.createElement('div'),
+        arenas = document.createElement('div');
 
-    let progressbar = document.createElement('div')
+    player1.classList.add(clPlayer)
     progressbar.classList.add('progressbar')
 
-    let life = document.createElement('div'),
-        name = document.createElement('div');
     life.classList.add('life')
     life.style.width = '100%'
 
@@ -37,17 +40,13 @@ function createPlayer(clPlayer, gamer) {
     progressbar.appendChild(life)
     progressbar.appendChild(name) 
 
-    let character = document.createElement('div')
     character.classList.add('character')
-
-    let img = document.createElement('img')
     img.src = gamer.img
 
     character.appendChild(img)
     player1.appendChild(progressbar)
     player1.appendChild(character)
 
-    let arenas = document.createElement('div')
     arenas.classList.add('arenas')
     arenas.appendChild(player1)
 }
