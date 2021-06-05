@@ -1,8 +1,6 @@
 const arenas = document.querySelector(".arenas")
 const randomButton = document.querySelector(".button")
 
-
-
 const $player1 = {
     player: 1,
     name: "Scorpion",
