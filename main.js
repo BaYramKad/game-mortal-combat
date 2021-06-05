@@ -1,6 +1,12 @@
-const $Scorpion = {
+const arenas = document.querySelector(".arenas")
+const randomButton = document.querySelector(".button")
+
+
+
+const $player1 = {
+    player: 1,
     name: "Scorpion",
-    hp: 98,
+    hp: 100,
     img: "http://reactmarathon-api.herokuapp.com/assets/scorpion.gif",
     weapon: ["sword", "fire", "machine gun"], 
     attack: function() {
@@ -8,9 +14,10 @@ const $Scorpion = {
     }
 }
 
-const $Subzero = {
+const $player2 = {
+    player: 2,
     name: "Subzero",
-    hp: 39,
+    hp: 100,
     img: "http://reactmarathon-api.herokuapp.com/assets/subzero.gif",
     weapon: ["sword", "fire", "machine gun"], 
     attack: function() {
@@ -18,37 +25,56 @@ const $Subzero = {
     }
 }
 
+function createElement(tag, className) {
+    const $tag = document.createElement(tag)
+    return className ? $tag.classList.add(className) || $tag : $tag
+}
 
-function createPlayer(clPlayer, gamer) {
-    let player1 = document.createElement('div'),
-        img = document.createElement('img'),
-        character = document.createElement('div'),
-        life = document.createElement('div'),
-        name = document.createElement('div'),
-        progressbar = document.createElement('div'),
-        arenas = document.createElement('div');
+function createPlayer(clPlayer) {
+    let player1 = createElement('div', 'player' + clPlayer.player),
+        img = createElement('img'),
+        character = createElement('div', 'character'),
+        life = createElement('div', 'life'),
+        name = createElement('div', 'name'),
+        progressbar = createElement('div', 'progressbar'),
+        arenas = createElement('div', 'arenas');
 
-    player1.classList.add(clPlayer)
-    progressbar.classList.add('progressbar')
+    life.style.width = clPlayer.hp + "%"
+    name.innerText = clPlayer.name
+    img.src = clPlayer.img
 
-    life.classList.add('life')
-    life.style.width = '100%'
-
-    name.classList.add('name')
-    name.innerText = gamer.name
- 
     progressbar.appendChild(life)
     progressbar.appendChild(name) 
-
-    character.classList.add('character')
-    img.src = gamer.img
 
     character.appendChild(img)
     player1.appendChild(progressbar)
     player1.appendChild(character)
 
-    arenas.classList.add('arenas')
-    arenas.appendChild(player1)
+    return arenas.appendChild(player1)
 }
-createPlayer('player1', $Scorpion)
-createPlayer('player2', $Subzero)
+
+arenas.appendChild(createPlayer($player1))
+arenas.appendChild(createPlayer($player2))
+
+function playerLose(name) {
+    const $loseTitle = createElement('div', "loseTitle")
+    $loseTitle.innerText = name + ' lose'
+    return $loseTitle
+}
+
+function changeHP(character) {
+    const lifePlayer = document.querySelector('.player' + character.player + ' .life');
+    character.hp -= Math.floor(Math.random() * 20)
+
+    lifePlayer.style.width = character.hp + "%"
+    if (character.hp <= 0) {
+        character.hp = 0
+        lifePlayer.style.width = character.hp + "%"
+        arenas.appendChild(playerLose(character.name))
+    }
+}
+
+randomButton.addEventListener('click', function() {
+    changeHP($player1)
+    changeHP($player2)
+})
